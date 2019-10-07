@@ -1,6 +1,7 @@
 package com.example.test16;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
@@ -11,12 +12,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity {
     LinearLayout layout;
+    ActionBar actionBar;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,24 +28,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         layout = findViewById(R.id.linearLayout);
+        textView = findViewById(R.id.textView);
+
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.drawable.ic_launcher_foreground);
+        actionBar.setDisplayShowTitleEnabled(false);
+
+        registerForContextMenu(textView);
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(0, 0, 0, "서버 전송");
-        menu.add(0, 1, 0, "보관함에 보관");
-        menu.add(0, 2, 0, "삭제");
+        menu.add(0, 0, 0, "RED");
+        menu.add(0, 1, 0, "WHITE");
+        menu.add(0, 2, 0, "BLACK");
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 0)
-            showToast("서버 전송 완료");
+            textView.setTextColor(Color.RED);
         else if (item.getItemId() == 1)
-            showToast("보관함에 보관됨");
+            textView.setTextColor(Color.WHITE);
         else if (item.getItemId() == 2)
-            showToast("삭제됨");
+            textView.setTextColor(Color.BLACK);
         else
             showToast("오류: ID 값을 확인하세요.");
         return true;
